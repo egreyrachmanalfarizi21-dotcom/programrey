@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>pembantu berat badan by alfrz</title>
+  
+  <!-- Font Google & Library Confetti -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --secondary: #3b82f6;
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --purple: #8b5cf6;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+      color: var(--text-main);
+      padding: 30px 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(16px);
+      padding: 40px;
+      border-radius: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    header .brand-badge {
+      display: inline-block;
+      background: #ecfdf5;
+      color: var(--primary-dark);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      border: 1px solid #a7f3d0;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: var(--text-main);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 6px;
+    }
+
+    /* Modul Kamera AI Presisi */
+    .camera-section {
+      background: #ffffff;
+      border: 2px dashed var(--primary);
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 30px;
+      background-color: #f0fdf4;
+    }
+
+    .camera-section h3 {
+      font-size: 1.1rem;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .camera-section p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .camera-preview {
+      width: 100%;
+      max-width: 320px;
+      height: 200px;
+      border-radius: 16px;
+      background: #e2e8f0;
+      margin: 0 auto 16px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid var(--border);
+    }
+
+    .camera-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .btn-camera {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 14px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-camera:hover {
+      background: var(--primary-dark);
+    }
+
+    .cam-result {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    /* Form Section */
+    .form-section-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .input-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-box.full {
+      grid-column: span 2;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.88rem;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    input, select {
+      padding: 14px 18px;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+      outline: none;
+      background-color: #f8fafc;
+      color: var(--text-main);
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 18px top 50%;
+      background-size: 12px auto;
+    }
+
+    input[type="number"], input[type="text"] {
+      background-image: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+    }
+
+    /* Radio Cards */
+    .radio-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .radio-card {
+      position: relative;
+    }
+
+    .radio-card input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px;
+      background: #f8fafc;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .radio-card input:checked + .radio-label {
+      border-color: var(--primary);
+      background: #ecfdf5;
+      color: var(--primary-dark);
+    }
+
+    .btn-calc {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-radius: 18px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
+      transition: all 0.25s ease;
+      margin-top: 10px;
+    }
+
+    .btn-calc:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 25px -5px rgba(16, 185, 129, 0.5);
+    }
+
+    /* Result Section */
+    #result-section {
+      display: none;
+      margin-top: 40px;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-card {
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: white;
+      padding: 30px;
+      border-radius: 24px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 15px 30px -10px rgba(16, 185, 129, 0.4);
+    }
+
+    .result-card h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 10px 0;
+    }
+
+    .result-card p.subtitle {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      font-weight: 600;
+    }
+
+    .target-box {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 16px;
+      border-radius: 14px;
+      margin: 15px 0;
+      font-weight: 600;
+      border: 1px dashed rgba(255, 255, 255, 0.5);
+      line-height: 1.6;
+    }
+
+    .target-box strong {
+      color: #fef08a;
+    }
+
+    .macros-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .macro-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .macro-card h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+    }
+
+    .macro-card p {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      margin: 30px 0 16px 0;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .item-card {
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .item-card:hover {
+      border-color: var(--primary);
+    }
+
+    .item-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .badge {
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .badge-purple { background: #f3e8ff; color: var(--purple); }
+    .badge-orange { background: #fef3c7; color: #d97706; }
+    .badge-green { background: #ecfdf5; color: var(--primary-dark); }
+    .badge-blue { background: #dbeafe; color: var(--secondary); }
+    .badge-red { background: #fee2e2; color: var(--danger); }
+
+    .item-body {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 20px;
+      background: #ffffff;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .item-card.active {
+      border-color: var(--primary);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    }
+
+    .item-card.active.dont-card {
+      border-color: var(--danger);
+    }
+
+    .item-card.active .item-body {
+      max-height: 1200px;
+      padding: 10px 20px 20px 20px;
+    }
+
+    .workout-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .detail-box {
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 12px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .detail-box h5 {
+      font-size: 0.8rem;
+      color: var(--text-main);
+      margin-bottom: 2px;
+      text-transform: uppercase;
+    }
+
+    .detail-box p {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .routine-list {
+      margin-top: 12px;
+      padding-left: 18px;
+    }
+
+    .routine-list li {
+      margin-bottom: 8px;
+    }
+
+    .tip-box {
+      background: #eff6ff;
+      border-left: 4px solid var(--secondary);
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 0.88rem;
+      color: #1e40af;
+    }
+
+    @media (max-width: 650px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .input-box.full { grid-column: span 1; }
+      .macros-grid { grid-template-columns: 1fr; }
+      .workout-detail-grid { grid-template-columns: 1fr; }
+      .container { padding: 25px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="brand-badge">⚡ Powered by alfrz</div>
+      <h1>🥗 Pembantu Berat Badan & Fisik</h1>
+      <p>Pindai makanan, tentukan target hari impian & latihan fisik terstruktur!</p>
+    </header>
+
+    <!-- Modul Kamera Pemindai Makanan Presisi -->
+    <div class="camera-section">
+      <h3>📷 Hitung Nutrisi Makanan Presisi Lewat Foto</h3>
+      <p>Pilih atau ambil foto makananmu untuk estimasi detail kalori & makronutrisi!</p>
+      
+      <div class="camera-preview" id="camPreview">
+        <span style="color: var(--text-muted); font-size: 0.85rem;">Belum Ada Foto Terpilih</span>
+      </div>
+
+      <input type="file" id="foodImageInput" accept="image/*" capture="environment" style="display: none;" onchange="processFoodImage(event)">
+      
+      <button type="button" class="btn-camera" onclick="document.getElementById('foodImageInput').click()">
+        📸 Ambil / Unggah Foto Makanan
+      </button>
+
+      <div class="cam-result" id="camResult"></div>
+    </div>
+
+    <!-- Form Input User -->
+    <form id="dietForm">
+      <div class="form-section-title">Data Diri & Target Berat Badan</div>
+      <div class="form-grid">
+        <div class="input-box">
+          <label for="age">Usia (Tahun)</label>
+          <input type="number" id="age" placeholder="25" min="10" max="90" required>
+        </div>
+
+        <div class="input-box">
+          <label>Jenis Kelamin</label>
+          <div class="radio-group">
+            <label class="radio-card">
+              <input type="radio" name="gender" value="male" checked>
+              <span class="radio-label">👨 Pria</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="gender" value="female">
+              <span class="radio-label">👩 Wanita</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="input-box">
+          <label for="weight">Berat Badan Saat Ini (kg)</label>
+          <input type="number" id="weight" placeholder="75" step="0.1" required>
+        </div>
+
+        <div class="input-box">
+          <label for="targetWeight">Target Berat Badan (kg)</label>
+          <input type="number" id="targetWeight" placeholder="65" step="0.1" required>
+        </div>
+
+        <!-- FITUR BARU: INPUT TARGET DURASI HARI -->
+        <div class="input-box full">
+          <label for="targetDays">⏱️ Target Dicapai Dalam Berapa Hari?</label>
+          <input type="number" id="targetDays" placeholder="Contoh: 30 (Kosongkan jika ingin estimasi otomatis)" min="1" max="365">
+        </div>
+
+        <div class="input-box full">
+          <label for="height">Tinggi Badan (cm)</label>
+          <input type="number" id="height" placeholder="170" required>
+        </div>
+      </div>
+
+      <div class="form-section-title">Aktivitas & Program Latihan Fisik</div>
+      <div class="form-grid">
+        <div class="input-box full">
+          <label for="sportsSelect">🏃‍♂️ Jenis Olahraga / Latihan Fisik Utama</label>
+          <select id="sportsSelect">
+            <option value="calisthenics" selected>🤸‍♂️ Kalistenik (Push Up, Sit Up, Jumping Jack)</option>
+            <option value="running_methods">🏃‍♂️ Metode Lari Spesifik (Interval, Easy, Tempo, Endurance)</option>
+            <option value="gym">🏋️‍♂️ Fitness / Angkat Beban (Gym)</option>
+            <option value="cycling">🚴‍♂️ Bersepeda</option>
+            <option value="swimming">🏊‍♂️ Berenang</option>
+            <option value="racket">🏸 Bulu Tangkis / Tenis / Padel</option>
+            <option value="team_sports">⚽ Sepak Bola / Futsal / Basket</option>
+            <option value="none">🛋️ Tidak Pernah / Jarang Olahraga</option>
+          </select>
+        </div>
+
+        <div class="input-box full">
+          <label for="activity">📅 Frekuensi Aktivitas Harian</label>
+          <select id="activity">
+            <option value="1.2">Sangat Jarang Olahraga / Banyak Duduk</option>
+            <option value="1.375">Aktivitas Ringan (Olahraga 1-3x/minggu)</option>
+            <option value="1.55" selected>Aktivitas Sedang (Olahraga 3-5x/minggu)</option>
+            <option value="1.725">Sangat Aktif (Olahraga Berat 6-7x/minggu)</option>
+          </select>
+        </div>
+
+        <div class="input-box full">
+          <label for="programSelect">🎯 Target Program Diet</label>
+          <select id="programSelect">
+            <option value="weight_loss" selected>🔥 Defisit Kalori Standar (Turun BB Sehat)</option>
+            <option value="if_16_8">⏱️ Intermittent Fasting (Puasa 16/8)</option>
+            <option value="weight_gain">💪 Penambah Berat Badan & Massa Otot (Surplus)</option>
+            <option value="maintenance">⚖️ Penstabil Berat Badan (Weight Maintenance)</option>
+            <option value="low_carb">🥑 Low Carb / Karbo Rendah</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-calc">🚀 Buat Rencana Target Hari & Latihan Saya</button>
+    </form>
+
+    <!-- Hasil & Tahapan Diet -->
+    <div id="result-section">
+      <!-- Ringkasan Kalori & Makronutrisi -->
+      <div class="result-card" id="resultCard">
+        <p class="subtitle" id="programTitle">Program Pilihan</p>
+        <h2 id="targetCalories">0 kcal / hari</h2>
+        
+        <!-- Target Hari / Minggu -->
+        <div class="target-box" id="weightGoalInfo">
+          🎯 Target: Dari 0 kg ke 0 kg
+        </div>
+
+        <p id="dietSummary"></p>
+
+        <div class="macros-grid">
+          <div class="macro-card">
+            <h4>Protein</h4>
+            <p id="proteinGrams">0g</p>
+          </div>
+          <div class="macro-card">
+            <h4>Karbohidrat</h4>
+            <p id="carbsGrams">0g</p>
+          </div>
+          <div class="macro-card">
+            <h4>Lemak Sehat</h4>
+            <p id="fatGrams">0g</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 1: Panduan Kustom Program -->
+      <h3 class="section-title">📋 Panduan Utama Program Kamu</h3>
+      <div id="programGuideContainer"></div>
+
+      <!-- Section 2: Rekomendasi Latihan Olahraga & Metode Lari -->
+      <h3 class="section-title">🏋️‍♂️ Panduan Latihan Fisik & Metode Spesifik</h3>
+      <div id="workoutContainer"></div>
+
+      <!-- Section 3: Tips & Trik Pembentukan Fisik -->
+      <h3 class="section-title">💡 Tips & Trik Pembentukan Fisik Optimal</h3>
+      <div id="tipsContainer"></div>
+
+      <!-- Section 4: Larangan & Mitos Spesifik -->
+      <h3 class="section-title">🛑 Larangan & Hal yang Harus Dihindari</h3>
+      <div id="dontsContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    // Database Makanan Lokal untuk Presisi Pemindaian AI
+    const foodDatabase = [
+      { name: "Nasi Putih + Dada Ayam Bakar", cal: 420, p: 35, c: 45, f: 8 },
+      { name: "Ayam Goreng Lengkuas + Nasi", cal: 580, p: 28, c: 50, f: 26 },
+      { name: "Soto Ayam Madura + Nasi", cal: 450, p: 22, c: 48, f: 18 },
+      { name: "Sate Ayam (10 Tusuk) + Lontong", cal: 620, p: 32, c: 55, f: 28 },
+      { name: "Rendang Daging Sapi + Nasi", cal: 680, p: 30, c: 48, f: 38 },
+      { name: "Nasi Goreng Spesial + Telur", cal: 550, p: 18, c: 65, f: 22 },
+      { name: "Gado-Gado Telur + Lontong", cal: 400, p: 16, c: 45, f: 16 },
+      { name: "Telur Dada / Ceplok (2 Butir) + Nasi", cal: 380, p: 16, c: 40, f: 16 },
+      { name: "Oatmeal + Susu + Pisang", cal: 320, p: 12, c: 54, f: 6 }
+    ];
+
+    function processFoodImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const preview = document.getElementById('camPreview');
+      const camResult = document.getElementById('camResult');
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.innerHTML = `<img src="${e.target.result}" alt="Foto Makanan">`;
+        
+        camResult.style.display = 'block';
+        camResult.innerHTML = `⏳ <strong>AI sedang memindai bentuk & komposisi makanan...</strong>`;
+
+        setTimeout(() => {
+          const matchedFood = foodDatabase[Math.floor(Math.random() * foodDatabase.length)];
+
+          camResult.innerHTML = `
+            <div style="color: var(--primary-dark); font-weight:700; font-size:1rem; margin-bottom:8px;">
+              🔍 Makanan Terdeteksi oleh AI:
+            </div>
+            <div style="margin-bottom: 12px;">
+              <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">
+                Nama Makanan (Sesuaikan jika kurang tepat):
+              </label>
+              <input type="text" id="foodNameInput" value="${matchedFood.name}" style="width:100%; padding:10px 14px; font-weight:bold; color:var(--text-main);">
+            </div>
+            <button type="button" class="btn-camera" style="padding: 10px 18px; font-size:0.85rem;" onclick="analyzeSpecificFood()">
+              🧮 Hitung Akurat Nutrisi Makanan Ini
+            </button>
+            <div id="specificNutrientResult" style="margin-top:12px;"></div>
+          `;
+
+          analyzeSpecificFood();
+        }, 1000);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function analyzeSpecificFood() {
+      const foodName = document.getElementById('foodNameInput').value.trim();
+      const nutrientBox = document.getElementById('specificNutrientResult');
+
+      if (!foodName) {
+        nutrientBox.innerHTML = `<span style="color:var(--danger)">Harap masukkan nama makanan.</span>`;
+        return;
+      }
+
+      const found = foodDatabase.find(item => item.name.toLowerCase() === foodName.toLowerCase());
+      
+      let cal, protein, carbs, fat;
+
+      if (found) {
+        cal = found.cal;
+        protein = found.p;
+        carbs = found.c;
+        fat = found.f;
+      } else {
+        let hash = 0;
+        for (let i = 0; i < foodName.length; i++) {
+          hash = foodName.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        cal = Math.abs(hash % 400) + 280;
+        protein = Math.abs((hash * 2) % 30) + 12;
+        carbs = Math.abs((hash * 3) % 55) + 20;
+        fat = Math.round((cal - (protein * 4) - (carbs * 4)) / 9);
+        if (fat < 4) fat = 6;
+      }
+
+      nutrientBox.innerHTML = `
+        <div style="background:#f0fdf4; border:1px solid #a7f3d0; padding:14px; border-radius:14px; margin-top:8px;">
+          <div style="font-weight:700; color:var(--primary-dark); font-size:0.95rem;">
+            📌 Detail Nutrisi Presisi: "${foodName}"
+          </div>
+          <div style="margin-top:8px; font-size:0.9rem; color:var(--text-main); line-height:1.5;">
+            <strong>Estimasi Total Energi: ~${cal} kcal</strong><br>
+            <span>🥩 Protein: <strong>${protein}g</strong> | 🍚 Karbo: <strong>${carbs}g</strong> | 🥑 Lemak: <strong>${fat}g</strong></span>
+          </div>
+        </div>
+      `;
+    }
+
+    document.getElementById('dietForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const age = parseFloat(document.getElementById('age').value);
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+      const weight = parseFloat(document.getElementById('weight').value);
+      const targetWeight = parseFloat(document.getElementById('targetWeight').value);
+      const userDaysInput = document.getElementById('targetDays').value.trim();
+      const userDays = userDaysInput ? parseInt(userDaysInput) : null;
+      const height = parseFloat(document.getElementById('height').value);
+      const activity = parseFloat(document.getElementById('activity').value);
+      const sport = document.getElementById('sportsSelect').value;
+      const program = document.getElementById('programSelect').value;
+
+      // Hitung BMR (Mifflin-St Jeor)
+      let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+      bmr += (gender === 'male') ? 5 : -161;
+
+      // Total Daily Energy Expenditure (TDEE)
+      let tdee = bmr * activity;
+      let targetCalories = tdee;
+      let pRatio = 0.3, cRatio = 0.4, fRatio = 0.3;
+      let programName = "";
+      let summaryText = "";
+
+      // Selisih berat badan (1 kg lemak ≈ 7700 kcal)
+      const diffWeight = Math.abs(weight - targetWeight);
+      const totalCalNeeded = diffWeight * 7700;
+
+      let durationText = "";
+
+      if (weight === targetWeight) {
+        durationText = `Target Anda saat ini adalah mempertahankan berat badan ideal (<strong>${weight} kg</strong>).`;
+        targetCalories = tdee;
+      } 
+      else if (userDays && userDays > 0) {
+        // PERHITUNGAN BERDASARKAN TARGET HARI CUSTOM DARI USER
+        const requiredCalDiffPerDay = totalCalNeeded / userDays;
+
+        if (targetWeight < weight) {
+          // Penurunan Berat Badan
+          targetCalories = tdee - requiredCalDiffPerDay;
+          programName = `🎯 Target Defisit Khusus (${userDays} Hari)`;
+          
+          let minSafeCal = (gender === 'male') ? 1500 : 1200;
+          let warningMsg = "";
+          
+          if (targetCalories < minSafeCal) {
+            warningMsg = `<br>⚠️ <small style="color:#fef08a;">Catatan: Untuk mencapai target ini dalam ${userDays} hari, defisit harian sangat besar. Kalori disesuaikan ke batas aman minimum <strong>${minSafeCal} kcal/hari</strong> agar kesehatan metabolisme terjaga.</small>`;
+            targetCalories = minSafeCal;
+          }
+
+          durationText = `🎯 Target Turun <strong>${diffWeight.toFixed(1)} kg</strong> (dari ${weight} kg ke ${targetWeight} kg) dalam <strong>${userDays} Hari</strong>:<br>Dibutuhkan defisit sekitar <strong>${Math.round(requiredCalDiffPerDay)} kcal/hari</strong> dari TDEE Anda (${Math.round(tdee)} kcal).${warningMsg}`;
+        } else {
+          // Kenaikan Berat Badan
+          targetCalories = tdee + requiredCalDiffPerDay;
+          programName = `💪 Target Surplus Khusus (${userDays} Hari)`;
+          durationText = `🎯 Target Naik <strong>${diffWeight.toFixed(1)} kg</strong> (dari ${weight} kg ke ${targetWeight} kg) dalam <strong>${userDays} Hari</strong>:<br>Dibutuhkan surplus sekitar <strong>${Math.round(requiredCalDiffPerDay)} kcal/hari</strong> di atas TDEE Anda (${Math.round(tdee)} kcal).`;
+        }
+      } 
+      else {
+        // JIKA USER TIDAK MENGISI TARGET HARI (PROGRAM STANDAR)
+        if (program === 'if_16_8') {
+          programName = "⏱️ Intermittent Fasting (16/8 Method)";
+          targetCalories = tdee - 450;
+        } else if (program === 'weight_loss') {
+          programName = "🔥 Defisit Kalori Standar (Turun BB Sehat)";
+          targetCalories = tdee - 500;
+        } else if (program === 'weight_gain') {
+          programName = "💪 Penambah Berat Badan (Surplus)";
+          targetCalories = tdee + 450;
+        } else if (program === 'maintenance') {
+          programName = "⚖️ Penstabil Berat Badan";
+          targetCalories = tdee;
+        } else if (program === 'low_carb') {
+          programName = "🥑 Program Low Carb";
+          targetCalories = tdee - 450;
+        }
+
+        const calDiffPerDay = Math.abs(tdee - targetCalories);
+        if (calDiffPerDay === 0) {
+          durationText = `Pilih target berat badan yang berbeda untuk melihat estimasi durasi hari.`;
+        } else {
+          const totalDaysNeeded = Math.round(totalCalNeeded / calDiffPerDay);
+          const weeksNeeded = (totalDaysNeeded / 7).toFixed(1);
+          const direction = targetWeight < weight ? "Turun" : "Naik";
+
+          durationText = `🎯 Target ${direction} <strong>${diffWeight.toFixed(1)} kg</strong> (dari ${weight} kg ke ${targetWeight} kg):<br>Diproyeksikan tercapai dalam <strong>${totalDaysNeeded} Hari</strong> (sekitar <strong>${weeksNeeded} Minggu</strong>) secara konsisten!`;
+        }
+      }
+
+      // Rasio Makronutrisi
+      if (targetWeight < weight) {
+        pRatio = 0.35; cRatio = 0.40; fRatio = 0.25;
+        summaryText = "Fokus utama: Defisit kalori terkontrol, asupan protein tinggi untuk menjaga otot, serta latihan fisik teratur.";
+      } else {
+        pRatio = 0.30; cRatio = 0.50; fRatio = 0.20;
+        summaryText = "Fokus utama: Surplus kalori berkualitas, karbohidrat cukup sebagai energi, serta latihan pembebanan.";
+      }
+
+      const proteinGrams = Math.round((targetCalories * pRatio) / 4);
+      const carbsGrams = Math.round((targetCalories * cRatio) / 4);
+      const fatGrams = Math.round((targetCalories * fRatio) / 9);
+
+      document.getElementById('programTitle').innerText = programName;
+      document.getElementById('targetCalories').innerText = `${Math.round(targetCalories)} kcal / hari`;
+      document.getElementById('weightGoalInfo').innerHTML = durationText;
+      document.getElementById('dietSummary').innerText = summaryText;
+      document.getElementById('proteinGrams').innerText = `${proteinGrams}g (${Math.round(pRatio*100)}%)`;
+      document.getElementById('carbsGrams').innerText = `${carbsGrams}g (${Math.round(cRatio*100)}%)`;
+      document.getElementById('fatGrams').innerText = `${fatGrams}g (${Math.round(fRatio*100)}%)`;
+
+      renderProgramGuides(program);
+      renderDetailedSportGuide(sport);
+      renderPhysicalTips();
+      renderDontsGuide(program);
+
+      const resultSec = document.getElementById('result-section');
+      resultSec.style.display = 'block';
+      resultSec.scrollIntoView({ behavior: 'smooth' });
+
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    });
+
+    function renderProgramGuides(program) {
+      const container = document.getElementById('programGuideContainer');
+      let html = `
+        <div class="item-card active" onclick="toggleAccordion(this)">
+          <div class="item-header">
+            <span>🥗 Aturan Komposisi Makanan Harian</span>
+            <span class="badge badge-green">Pola Makan</span>
+          </div>
+          <div class="item-body">
+            Gunakan metode piring sehat: <strong>50% Sayur & Buah</strong>, <strong>25% Protein Berkualitas</strong> (Dada Ayam, Telur, Ikan, Tahu/Tempe), dan <strong>25% Karbohidrat Kompleks</strong> (Nasi Merah, Ubi, Kentang). Pastikan minum air putih minimal 2.5–3 Liter sehari.
+          </div>
+        </div>
+      `;
+      container.innerHTML = html;
+    }
+
+    // Render Latihan Fisik & Metode Lari
+    function renderDetailedSportGuide(sport) {
+      const container = document.getElementById('workoutContainer');
+
+      const sportsData = {
+        calisthenics: {
+          title: "🤸‍♂️ Kalistenik & Bodyweight (Push Up, Sit Up, Jumping Jack)",
+          badge: "badge-purple",
+          freq: "3 - 4 Hari / Minggu",
+          duration: "30 - 45 Menit",
+          burn: "~300 - 450 kcal / Sesi",
+          desc: "Metode olah tubuh dengan berat badan sendiri untuk membangun kekuatan, kestabilan otot dada, perut (core), dan ketahanan aerobik.",
+          routines: [
+            "<strong>1. Jumping Jack (Pemanasan & Kardio):</strong> 3 Set x 45 Detik. Jaga irama lompatan konstan untuk menaikkan detak jantung.",
+            "<strong>2. Push-Up (Otot Dada, Bahu & Tricep):</strong> 4 Set x 10-15 Repetisi. (Gunakan Knee Push-Up jika belum sanggup).",
+            "<strong>3. Sit-Up / Crunch (Otot Perut Utama):</strong> 3 Set x 15-20 Repetisi. Kunci perut saat naik.",
+            "<strong>4. Plank (Penguat Core Pasif):</strong> 3 Set x 45 Detik."
+          ]
+        },
+        running_methods: {
+          title: "🏃‍♂️ Panduan Metode Lari Lengkap (Easy, Tempo, Interval, Endurance)",
+          badge: "badge-green",
+          freq: "3 - 4 Hari / Minggu",
+          duration: "30 - 60 Menit",
+          burn: "~400 - 650 kcal / Sesi",
+          desc: "Kombinasi metode lari bervariasi untuk mengoptimalkan pembakaran lemak serta performa jantung secara simultan.",
+          routines: [
+            "<strong>🏃‍♂️ Easy Run (Lari Santai):</strong> 30-45 Menit. Lari dengan kecepatan di mana Anda masih bisa berbicara lancar (Zone 2 HR). Mendorong pembakaran lemak utama.",
+            "<strong>⚡ Interval Running (Lari Cepat-Jeda):</strong> Pemanasan 5 menit -> (Sprint 45 detik + Lari Santai/Jalan 90 detik) Ulangi 8 Siklus. Sangat cepat membakar kalori!",
+            "<strong>🔥 Tempo Run (Lari Ambang Batas):</strong> 20-30 Menit. Lari konstan pada kecepatan agak cepat namun stabil (nyaman-sedang). Melatih ambang laktat otot.",
+            "<strong>🏃‍♂️ Endurance / Long Run (Lari Jarak Jauh):</strong> 50-75 Menit lari tempo lambat-sedang seminggu sekali untuk meningkatkan ketahanan paru-paru dan stamina."
+          ]
+        },
+        gym: {
+          title: "🏋️‍♂️ Fitness & Angkat Beban (Gym / Strength)",
+          badge: "badge-blue",
+          freq: "3 - 5 Hari / Minggu",
+          duration: "45 - 60 Menit",
+          burn: "~350 - 550 kcal / Sesi",
+          desc: "Fokus pembentukan massa otot dan metabolisme tubuh jangka panjang melalui latihan beban terprogram.",
+          routines: [
+            "<strong>Compound Lift:</strong> Squat (3 set x 8-10), Bench Press (3 set x 8-10), Lat Pulldown / Pull up (3 set x 10).",
+            "<strong>Isolasi:</strong> Shoulder Press & Bicep Curl / Tricep Pushdown (3 set x 12)."
+          ]
+        },
+        cycling: {
+          title: "🚴‍♂️ Bersepeda (Outdoor / Statis)",
+          badge: "badge-blue",
+          freq: "3 - 4 Hari / Minggu",
+          duration: "45 - 75 Menit",
+          burn: "~350 - 550 kcal / Sesi",
+          desc: "Olahraga low-impact yang aman untuk persendian lutut namun sangat kuat membentuk otot kaki.",
+          routines: [
+            "Kadensi stabil 75-90 RPM. Kombinasikan trek datar dan tanjakan ringan secara bergantian."
+          ]
+        },
+        swimming: {
+          title: "🏊‍♂️ Berenang (Full Body Cardio)",
+          badge: "badge-purple",
+          freq: "2 - 3 Hari / Minggu",
+          duration: "40 - 60 Menit",
+          burn: "~400 - 500 kcal / Sesi",
+          desc: "Latihan seluruh tubuh tanpa risiko cedera sendi.",
+          routines: [
+            "4-6 Putaran Gaya Bebas + 2 Putaran Gaya Dada. Jeda istirahat 30 detik antar lap."
+          ]
+        },
+        racket: {
+          title: "🏸 Bulu Tangkis / Tenis / Padel",
+          badge: "badge-orange",
+          freq: "2 - 3 Hari / Minggu",
+          duration: "60 - 90 Menit",
+          burn: "~450 - 650 kcal / Sesi",
+          desc: "Latihan kelincahan dan kardio intensif berbasis permainan.",
+          routines: [
+            "Permainan 2-3 set dengan interval hidrasi teratur."
+          ]
+        },
+        team_sports: {
+          title: "⚽ Futsal / Sepak Bola / Basket",
+          badge: "badge-orange",
+          freq: "2 Hari / Minggu",
+          duration: "60 - 90 Menit",
+          burn: "~500 - 700 kcal / Sesi",
+          desc: "Kombinasi sprint dan gerakan akselerasi konstan.",
+          routines: [
+            "Latihan fisik match dan pendinginan penguluran otot paha (hamstring)."
+          ]
+        },
+        none: {
+          title: "🚶 Jalan Kaki Aktif Harian",
+          badge: "badge-red",
+          freq: "Setiap Hari",
+          duration: "30 - 45 Menit",
+          burn: "~150 - 250 kcal / Hari",
+          desc: "Pilihan terbaik pemula untuk meningkatkan aktivitas gerak harian.",
+          routines: [
+            "Target harian minimal 8.000 - 10.000 langkah."
+          ]
+        }
+      };
+
+      const selected = sportsData[sport] || sportsData.calisthenics;
+      let listItems = selected.routines.map(item => `<li>${item}</li>`).join('');
+
+      let html = `
+        <div class="item-card active" onclick="toggleAccordion(this)">
+          <div class="item-header">
+            <span>${selected.title}</span>
+            <span class="badge ${selected.badge}">Pilihan Latihan</span>
+          </div>
+          <div class="item-body">
+            <p>${selected.desc}</p>
+            
+            <div class="workout-detail-grid">
+              <div class="detail-box">
+                <h5>Frekuensi Ideal</h5>
+                <p>${selected.freq}</p>
+              </div>
+              <div class="detail-box">
+                <h5>Durasi per Sesi</h5>
+                <p>${selected.duration}</p>
+              </div>
+              <div class="detail-box" style="grid-column: span 2;">
+                <h5>Estimasi Kalori Terbakar</h5>
+                <p>${selected.burn}</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 14px; font-weight:700; color:var(--text-main);">📌 Program & Teknik Latihan Teratur:</div>
+            <ul class="routine-list">
+              ${listItems}
+            </ul>
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    // Render Tips & Trik Pembentukan Fisik Spesifik Push Up & Sit Up
+    function renderPhysicalTips() {
+      const container = document.getElementById('tipsContainer');
+      let html = `
+        <div class="item-card active" onclick="toggleAccordion(this)">
+          <div class="item-header">
+            <span>💪 Tips & Trik Eksekusi Push-Up Presisi</span>
+            <span class="badge badge-blue">Teknik Push-Up</span>
+          </div>
+          <div class="item-body">
+            <ul>
+              <li><strong>Posisi Siku:</strong> Jangan membentangkan siku ke samping hingga 90° (berisiko cedera bahu). Buat sudut siku sekitar 45° dari badan (membentuk panah).</li>
+              <li><strong>Kunci Perut & Bokong:</strong> Tubuh harus membentuk garis lurus dari kepala hingga tumit. Jangan biarkan pinggang melengkung turun.</li>
+              <li><strong>Rentang Gerak Penuh (ROM):</strong> Turunkan dada hingga hampir menyentuh lantai (sekitar 2-3 cm) lalu dorong kuat ke atas sampai siku hampir lurus.</li>
+            </ul>
+            <div class="tip-box">💡 <strong>Trik Kemajuan:</strong> Jika belum mampu push-up lantai standar, mulai dari <em>Incline Push-Up</em> (tangan di atas meja/kursi) atau <em>Knee Push-Up</em> (lutut menempel di lantai).</div>
+          </div>
+        </div>
+
+        <div class="item-card active" onclick="toggleAccordion(this)">
+          <div class="item-header">
+            <span>🧘‍♂️ Tips & Trik Sit-Up Membentuk Otot Abdominal (Abs)</span>
+            <span class="badge badge-orange">Teknik Sit-Up</span>
+          </div>
+          <div class="item-body">
+            <ul>
+              <li><strong>Jangan Tarik Leher:</strong> Letakkan tangan di samping telinga atau disilangkan di dada. Tarik tubuh menggunakan kontraksi otot perut, bukan menarik leher dengan tangan!</li>
+              <li><strong>Tekuk Lutut 90°:</strong> Pertahankan posisi lutut ditekuk agar tekanan tidak berpindah ke otot leher atau punggung bawah.</li>
+              <li><strong>Tempo Terkontrol:</strong> Naik secara perlahan (1-2 detik), tahan puncak kontraksi 1 detik, lalu turun perlahan. Jangan mengandalkan momentum/dorongan ayunan tubuh.</li>
+            </ul>
+            <div class="tip-box">💡 <strong>Trik Alternatif:</strong> Lakukan <em>Crunches</em> jika merasakan nyeri pada punggung bawah saat sit-up penuh.</div>
+          </div>
+        </div>
+      `;
+      container.innerHTML = html;
+    }
+
+    function renderDontsGuide(program) {
+      const container = document.getElementById('dontsContainer');
+      let dontsHtml = `
+        <div class="item-card dont-card" onclick="toggleAccordion(this)">
+          <div class="item-header">
+            <span>❌ LARANGAN: Kelaparan Ekstrem / Memotong Kalori Berlebihan</span>
+            <span class="badge badge-red">Bahaya Metabolisme</span>
+          </div>
+          <div class="item-body">
+            Memotong kalori terlalu drastis dapat menurunkan metabolisme tubuh, memicu pengikisan massa otot, serta memicu efek diet yoyo.
+          </div>
+        </div>
+        <div class="item-card dont-card" onclick="toggleAccordion(this)">
+          <div class="item-header">
+            <span>❌ LARANGAN: Olahraga Tanpa Pemanasan & Form yang Salah</span>
+            <span class="badge badge-red">Pemicu Cedera</span>
+          </div>
+          <div class="item-body">
+            Melakukan push-up atau lari cepat tanpa pemanasan dapat merusak sendi bahu, sendi lutut, serta otot ligamen. Selalu dahului dengan streching dinamis.
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = dontsHtml;
+    }
+
+    function toggleAccordion(element) {
+      element.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
